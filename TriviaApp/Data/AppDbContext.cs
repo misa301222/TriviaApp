@@ -16,7 +16,7 @@ namespace TriviaApp.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            /*
             builder.Entity<Question>().HasKey(table => new
             {
                 table.Id,
@@ -28,11 +28,17 @@ namespace TriviaApp.Data
                 table.Id,
                 table.GeneratedName
             });
-
             
+            builder.Entity<RoomQuestion>().HasKey(table => new
+            {
+                table.RoomId,
+                table.QuestionId
+            });
+            */
 
             builder.Entity<UserScore>().HasKey(table => new
             {
+                table.UserScoreId,
                 table.GeneratedName,
                 table.Email
             });
@@ -42,5 +48,6 @@ namespace TriviaApp.Data
         public DbSet<Question> Question { get; set; }
         public DbSet<UserScore> UserScore { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<TriviaApp.Data.Entities.UserProfile> UserProfile { get; set; }
     }
 }

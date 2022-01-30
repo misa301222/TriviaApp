@@ -5,11 +5,20 @@ namespace TriviaApp.Data.Entities
 {
     public class Room
     {
-        [Key]
-        public int Id { get; set; }
-        [Key]
-        public string GeneratedName { get; set; }
+        public Room(int roomId, string generatedName, string createdBy, DateTime dateCreated)
+        {
+            RoomId = roomId;
+            GeneratedName = generatedName;
+            CreatedBy = createdBy;
+            DateCreated = dateCreated;
+        }
 
-        public Question QuestionForeignKey { get; set; }
+        [Key]
+        public int RoomId { get; set; }
+        public string GeneratedName { get; set; }
+        public string CreatedBy { get; set; }
+
+        [Column(TypeName = "smalldatetime")]
+        public DateTime DateCreated { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace TriviaApp.Data.Entities
 {
     public class UserScore
     {
-        public UserScore(int userScoreId, string generatedName, string email, int correct, int wrong, float score, DateTime dateSent)
+        public UserScore(int userScoreId, string generatedName, string email, int correct, int wrong, double score, DateTime dateSent)
         {
             UserScoreId = userScoreId;
             GeneratedName = generatedName;
@@ -25,7 +25,7 @@ namespace TriviaApp.Data.Entities
         public string Email { get; set; }
         public int Correct { get; set; }
         public int Wrong { get; set; }
-        public float Score { get; set; }
+        public double Score { get; set; }
         [Column(TypeName = "smalldatetime")]
         public DateTime DateSent { get; set; }
     }

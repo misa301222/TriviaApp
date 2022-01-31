@@ -43,6 +43,18 @@ namespace TriviaApp.Controllers
             return userScore;
         }
 
+        [HttpGet("GetUserScoresByEmail/{email}")]
+        public async Task<ActionResult<IEnumerable<UserScore>>> GetUserScoresByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+
+            return await _context.UserScore.Where(x => x.Email == email).OrderByDescending(x => x.DateSent).ToListAsync();
+        }
+
+
         // PUT: api/UserScores/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

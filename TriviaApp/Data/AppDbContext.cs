@@ -49,5 +49,6 @@ namespace TriviaApp.Data
         public DbSet<UserScore> UserScore { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<TriviaApp.Data.Entities.UserProfile> UserProfile { get; set; }
+        public DbSet<TriviaApp.Data.Entities.UserAnswers> UserAnswers { get; set; }
     }
 }

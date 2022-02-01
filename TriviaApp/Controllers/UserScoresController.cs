@@ -54,6 +54,59 @@ namespace TriviaApp.Controllers
             return await _context.UserScore.Where(x => x.Email == email).OrderByDescending(x => x.DateSent).ToListAsync();
         }
 
+        [HttpGet("GetTotalScoreByEmail/{email}")]
+        public async Task<ActionResult<double>> GetTotalScoreByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+            var scoreList = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
+            var total = 0.00;
+            var correct = 0.00;
+            var wrong = 0.00;
+            foreach (var score in scoreList)
+            {
+                correct += score.Correct;
+                wrong += score.Wrong;
+            }
+            total = correct / wrong;
+
+            return total;
+        }
+
+        [HttpGet("GetTotalCorrectByEmail/{email}")]
+        public async Task<ActionResult<int>> GetTotalCorrectByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+            var scoreList = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
+            var total = 0;
+            foreach (var score in scoreList)
+            {
+                total += score.Correct;
+            }
+            return total;
+        }
+
+        [HttpGet("GetTotalWrongEmail/{email}")]
+        public async Task<ActionResult<int>> GetTotalWrongByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+            var scoreList = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
+            var total = 0;
+            foreach (var score in scoreList)
+            {
+                total += score.Wrong;
+            }
+            return total;
+        }
+
 
         // PUT: api/UserScores/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

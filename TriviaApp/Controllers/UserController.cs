@@ -119,6 +119,27 @@ namespace TriviaApp.Controllers
             }
         }
 
+        [HttpGet("GetUserByFullNameLike/{fullName}")]
+        public async Task<object> GetUserByFullNameLike(string fullName)
+        {
+            try
+            {
+                List<UserDTO> alluserDTO = new List<UserDTO>();
+                //var users = _userManager.Users.ToList();
+                var users = _userManager.Users.Where(x => x.FullName.Contains(fullName)).ToList();
+                foreach (var user in users)
+                {
+                    var roles = (await _userManager.GetRolesAsync(user)).ToList();
+                    alluserDTO.Add(new UserDTO(user.FullName, user.Email, user.UserName, user.DateCreated, roles));
+                }
+                return await Task.FromResult(new ResponseModel(ResponseCode.OK, "", alluserDTO));
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(new ResponseModel(ResponseCode.ERROR, ex.Message, null));
+            }
+        }
+
         [Authorize(Roles = "User, Admin")]
         [HttpGet("GetUserList")]
         public async Task<object> GetUserList()
@@ -216,6 +237,20 @@ namespace TriviaApp.Controllers
             {
                 return await Task.FromResult(new ResponseModel(ResponseCode.ERROR, ex.Message, null));
             }
+        }
+
+        [HttpDelete("DeleteUserByEmail/{email}")]
+        public async Task<IActionResult> DeleteUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _userManager.DeleteAsync(user);
+            return Ok();
         }
 
         private string GenerateToken(AppUser user, List<string> roles)

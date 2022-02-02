@@ -180,6 +180,23 @@ namespace TriviaApp.Controllers
             return NoContent();
         }
 
+        [HttpDelete("DeleteAllUserScoresByEmail/{email}")]
+        public async Task<IActionResult> DeleteAllUserScoresByEmail(string email)
+        {
+            var userScores = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
+            if (userScores.Count < 1)
+            {
+                return NotFound();
+            }
+
+            foreach(var userScore in userScores)
+            {
+                _context.UserScore.Remove(userScore);
+            }
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         private bool UserScoreExists(int id)
         {
             return _context.UserScore.Any(e => e.UserScoreId == id);

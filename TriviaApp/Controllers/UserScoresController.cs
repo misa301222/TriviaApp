@@ -64,13 +64,13 @@ namespace TriviaApp.Controllers
             var scoreList = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
             var total = 0.00;
             var correct = 0.00;
-            var wrong = 0.00;
+            var totalScores = 0;
             foreach (var score in scoreList)
             {
                 correct += score.Correct;
-                wrong += score.Wrong;
+                totalScores += score.Correct + score.Wrong;
             }
-            total = correct / wrong;
+            total = correct / totalScores;
 
             return total;
         }

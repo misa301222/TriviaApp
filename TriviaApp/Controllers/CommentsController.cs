@@ -43,6 +43,18 @@ namespace TriviaApp.Controllers
             return comment;
         }
 
+        [HttpGet("GetCommentsByUserPostId/{userPostId}")]
+        public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsByUserPostId(int userPostId)
+        {
+            var comments = await _context.Comment.Where(x => x.UserPostId == userPostId).OrderByDescending(x => x.DateComment).ToListAsync();
+            if (comments == null)
+            {
+                return NotFound();
+            }
+
+            return comments;
+        }
+
         // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

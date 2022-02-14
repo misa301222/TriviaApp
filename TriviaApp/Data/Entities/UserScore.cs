@@ -26,7 +26,6 @@ namespace TriviaApp.Data.Entities
         public int Correct { get; set; }
         public int Wrong { get; set; }
         public double Score { get; set; }
-        [Column(TypeName = "smalldatetime")]
         public DateTime DateSent { get; set; }
     }
 }

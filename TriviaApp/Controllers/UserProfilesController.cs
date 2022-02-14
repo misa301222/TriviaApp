@@ -54,6 +54,17 @@ namespace TriviaApp.Controllers
             return await _context.UserProfile.Where(x => x.Email.Contains(email)).ToListAsync();
         }
 
+        [HttpGet("GetUserProfileByEmail/{email}")]
+        public async Task<ActionResult<UserProfile>> GetUserProfileByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest();
+            }
+
+            return await _context.UserProfile.Where(x => x.Email == email).FirstAsync();
+        }
+
         // PUT: api/UserProfiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

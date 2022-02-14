@@ -57,11 +57,13 @@ namespace TriviaApp.Controllers
         [HttpGet("GetTotalScoreByEmail/{email}")]
         public async Task<ActionResult<double>> GetTotalScoreByEmail(string email)
         {
-            if (email == null)
-            {
-                return BadRequest();
-            }
             var scoreList = await _context.UserScore.Where(x => x.Email == email).ToListAsync();
+
+            if (scoreList== null)
+            {
+                return NotFound();
+            }
+            
             var total = 0.00;
             var correct = 0.00;
             var totalScores = 0;

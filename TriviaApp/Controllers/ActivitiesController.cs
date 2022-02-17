@@ -55,7 +55,18 @@ namespace TriviaApp.Controllers
             return result;
         }
 
+        [HttpGet("GetActivitiesByEmailDescLastAndCategoriesScore/{email}")]
+        public async Task<ActionResult<IEnumerable<Activity>>> GetActivitiesByEmailDescLastAndCategoriesScore(string email)
+        {
+            var result = await _context.Activity.Where(x => x.Email == email && (x.Category.Equals("SCORE") || x.Category.Equals("ROOM"))).
+                OrderByDescending(x => x.DateActivity).Take(20).ToListAsync();
+            if (result == null)
+            {
+                return null;
+            }
 
+            return result;
+        }
 
         // PUT: api/Activities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

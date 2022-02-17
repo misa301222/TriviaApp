@@ -57,12 +57,12 @@ namespace TriviaApp.Controllers
         [HttpGet("GetRoomsByGeneratedName/{generatedName}")]
         public async Task<ActionResult<Room>> GetRoomsByGeneratedName(string generatedName)
         {
-            if (generatedName == null)
+            var room = await _context.Room.Where(x => x.GeneratedName == generatedName).FirstOrDefaultAsync();
+            if(room == null)
             {
-                return BadRequest();
+                return null;
             }
-
-            return await _context.Room.Where(x => x.GeneratedName == generatedName).FirstAsync();
+            return room;
         }
 
         [HttpGet("GetRoomsByGeneratedNameAndEmail/{generatedName}/{email}")]

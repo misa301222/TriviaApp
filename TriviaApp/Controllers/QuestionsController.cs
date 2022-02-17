@@ -99,6 +99,21 @@ namespace TriviaApp.Controllers
             return CreatedAtAction("GetQuestion", new { id = question.QuestionId }, question);
         }
 
+        [HttpDelete("DeleteQuestionsByRoomId/{roomId}")]
+        public async Task<IActionResult> DeleteQuestionsByRoomId(int roomId)
+        {
+            var questions = await _context.Question.Where(x => x.RoomId == roomId).ToListAsync();
+            if (questions == null)
+            {
+                return null;
+            }
+
+            _context.Question.RemoveRange(questions);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         // DELETE: api/Questions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestion(int id)

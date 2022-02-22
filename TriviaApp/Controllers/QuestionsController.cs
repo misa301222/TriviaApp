@@ -51,7 +51,7 @@ namespace TriviaApp.Controllers
 
             if (question == null)
             {
-                return NotFound();
+                return null;
             }
 
             return question;

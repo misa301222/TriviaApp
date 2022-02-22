@@ -126,6 +126,22 @@ namespace TriviaApp.Controllers
             return NoContent();
         }
 
+        [HttpDelete("DeleteActivitiesByEmail/{email}")]
+        public async Task<IActionResult> DeleteActivitiesByEmail(string email)
+        {
+            var activities = await _context.Activity.Where(x => x.Email.Equals(email)).ToListAsync();
+
+            if (activities == null)
+            {
+                return NotFound();
+            }
+
+            _context.Activity.RemoveRange(activities);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         private bool ActivityExists(int id)
         {
             return _context.Activity.Any(e => e.ActivityId == id);

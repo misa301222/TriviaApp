@@ -61,5 +61,6 @@ namespace TriviaApp.Data
         public DbSet<TriviaApp.Data.Entities.Feeling> Feeling { get; set; }
         public DbSet<TriviaApp.Data.Entities.UserLike> UserLike { get; set; }
         public DbSet<TriviaApp.Data.Entities.Activity> Activity { get; set; }
+        public DbSet<TriviaApp.Data.Entities.AnimalConfig> AnimalConfig { get; set; }
     }
 }

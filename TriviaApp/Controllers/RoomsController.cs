@@ -54,15 +54,40 @@ namespace TriviaApp.Controllers
             return await _context.Room.Where(x => x.CreatedBy == email).ToArrayAsync();
         }
 
+        [HttpGet("GetRoomsByEmailLike/{email}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByEmailLike(string email)
+        {
+            var rooms = await _context.Room.Where(x => x.CreatedBy.Contains(email)).ToArrayAsync();
+
+            if (rooms == null)
+            {
+                return null;
+            }
+
+            return rooms;
+        }
+
+        [HttpGet("GetLastFiveCreatedRooms")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetLastFiveCreatedRooms()
+        {
+            var rooms = await _context.Room.OrderByDescending(x => x.DateCreated).Take(5).ToListAsync();
+            if (rooms == null)
+            {
+                return null;
+            }
+
+            return rooms;
+        }
+
         [HttpGet("GetRoomsByGeneratedName/{generatedName}")]
         public async Task<ActionResult<Room>> GetRoomsByGeneratedName(string generatedName)
         {
-            if (generatedName == null)
+            var room = await _context.Room.Where(x => x.GeneratedName == generatedName).FirstOrDefaultAsync();
+            if(room == null)
             {
-                return BadRequest();
+                return null;
             }
-
-            return await _context.Room.Where(x => x.GeneratedName == generatedName).FirstAsync();
+            return room;
         }
 
         [HttpGet("GetRoomsByGeneratedNameAndEmail/{generatedName}/{email}")]
